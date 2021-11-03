@@ -3,13 +3,15 @@ package fr.ird.runtime;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class ServerInstance {
 
     private ServerSocket serverSocket;
 
-    private Integer MAX_CLIENTS = -1; // -1 for unlimited or "none"
+    private Integer MAX_CLIENTS = 500;
     private Integer PORT = 9090;
 
     private static final List KNOWN_FLAGS = new ArrayList<String>(Arrays.asList(new String[]{"-p", "-c", "-h"}));
@@ -18,7 +20,7 @@ public class ServerInstance {
         System.out.println("usage : rfr run [options]");
         System.out.println("\noptions:");
         System.out.println("    -p port : specify on which port the server runs, default is 9090");
-        System.out.println("    -c maxclients|none : specify how many clients can be connected, default is none");
+        System.out.println("    -c maxclients : specify how many clients can be connected, default is 500");
         System.out.println("    -h : print this help");
         }
 
@@ -53,6 +55,8 @@ public class ServerInstance {
         return options;
     };
 
+
+
     public ServerInstance(String[] runArgs) throws IOException {
         Map params = parseArguments(runArgs);
         if (params.containsKey("PORT")) PORT =  Math.abs((Integer) params.get("PORT"));
@@ -64,6 +68,19 @@ public class ServerInstance {
         serverSocket = new ServerSocket(PORT);
     }
 
+
+    public ServerSocket getServerSocket() {
+        return serverSocket;
+    }
+
+    public Integer getMAX_CLIENTS() {
+        return MAX_CLIENTS;
+    }
+
+    public Integer getPORT() {
+        return PORT;
+    }
+
     @Override
     public String toString() {
         return "ServerInstance{" +
@@ -72,4 +89,10 @@ public class ServerInstance {
                 ", PORT=" + PORT +
                 '}';
     }
+
+    public void run() throws Exception {
+        //TODO implement pools
+        ExecutorService pool = Executors.newFixedThreadPool(MAX_CLIENTS);
+    }
+
 }
