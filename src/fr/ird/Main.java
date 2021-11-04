@@ -17,28 +17,21 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        switch (args[0]) {
-            case "run" :
+        if(args[0].equals("run")) {
                 System.out.println("Running!");
                 ServerInstance server = new ServerInstance(args);
                 System.out.println(server.toString());
                 server.run();
-                break;
-
-            case "version" :
-                System.out.println("RelFinderReformed 1.0.0 beta");
-                break;
-
-            case "help" :
-                printHelp();
-                break;
-
-            default:
-                printHelp();
-                System.exit(1);
-                break;
         }
-
+        else if (args[0].equals("version"))
+                System.out.println("RelFinderReformed 1.0.0 beta");
+        else if (args[0].equals("help")) {
+                    printHelp();
+        }
+        else {
+                    printHelp();
+                    System.exit(1);
+        }
 
         System.exit(0);
     }

@@ -26,7 +26,7 @@ public class ServerInstance {
     }
 
     private static Map<String, Object> parseArguments(String[] runArgs) {
-        Map<String, Object> options = new HashMap<>();
+        Map<String, Object> options = new HashMap<String, Object>();
 
         int f = 1;
         int index;
