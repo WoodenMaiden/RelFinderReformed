@@ -2,10 +2,11 @@ package fr.ird.runtime;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.regex.Pattern;
+
 
 public class ServerInstance {
 
@@ -22,7 +23,7 @@ public class ServerInstance {
         System.out.println("    -p port : specify on which port the server runs, default is 9090");
         System.out.println("    -c maxclients : specify how many clients can be connected, default is 500");
         System.out.println("    -h : print this help");
-        }
+    }
 
     private static Map<String, Object> parseArguments(String[] runArgs) {
         Map<String, Object> options = new HashMap<>();
@@ -93,6 +94,9 @@ public class ServerInstance {
     public void run() throws Exception {
         //TODO implement pools
         ExecutorService pool = Executors.newFixedThreadPool(MAX_CLIENTS);
+        Socket client = serverSocket.accept();
+        pool.submit(new Job(client));
+
     }
 
 }
