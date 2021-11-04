@@ -15,13 +15,14 @@ public class Main {
         System.out.println("\noptions depends from command, use -h to get more information about said command");
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
         switch (args[0]) {
             case "run" :
                 System.out.println("Running!");
                 ServerInstance server = new ServerInstance(args);
                 System.out.println(server.toString());
+                server.run();
                 break;
 
             case "version" :
