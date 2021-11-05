@@ -1,6 +1,9 @@
 package fr.ird.runtime;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -94,9 +97,11 @@ public class ServerInstance {
     public void run() throws Exception {
         //TODO implement pools
         ExecutorService pool = Executors.newFixedThreadPool(MAX_CLIENTS);
-        Socket client = serverSocket.accept();
-        pool.submit(new Job(client));
 
+        while (true) {
+            Socket client = serverSocket.accept();
+            pool.execute(new Job(client));
+        }
     }
 
 }
