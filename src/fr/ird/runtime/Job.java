@@ -3,7 +3,10 @@ package fr.ird.runtime;
 import java.io.*;
 import java.net.Socket;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
+
+import fr.ird.utils.QuerySender;
 import org.json.*;
 
 public class Job implements Runnable{
@@ -30,22 +33,14 @@ public class Job implements Runnable{
             }
             */
 
-            String GetArgument = in.readLine().split(" ")[1].substring(1);
+            String getArgument = in.readLine().split(" ")[1].substring(1);
 
-            System.out.println(GetArgument);
-            System.out.println(URLDecoder.decode(GetArgument));
+            getArgument = URLDecoder.decode(getArgument, StandardCharsets.UTF_8.name());
+            System.out.println(getArgument);
 
+            Map <String, Object> nodes = new JSONObject(getArgument).toMap();
 
-
-            //we are doing this because the code below blocks
-            //while ((line = in.readLine()) != null){
-            //    System.out.println(line);
-            //}
-            //TODO
-
-            Map <String, Object> nodes = new JSONObject(GetArgument).toMap();
-
-
+            QuerySender.sendQuery("Hello world!");
 
 
 
