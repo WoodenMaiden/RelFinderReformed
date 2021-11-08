@@ -20,27 +20,29 @@ public class Job implements Runnable{
     @Override
     public void run() {
         try {
+
             System.out.println("Got request from" + sockClient.getInetAddress().toString());
 
             BufferedReader in = new BufferedReader(new InputStreamReader(sockClient.getInputStream()));
             PrintWriter out = new PrintWriter(sockClient.getOutputStream());
 
-            //int i = 0;
-            /*
-            while (i < 14){
-                System.out.println(in.readLine());
-                ++i;
-            }
-            */
-
             String getArgument = in.readLine().split(" ")[1].substring(1);
 
             getArgument = URLDecoder.decode(getArgument, StandardCharsets.UTF_8.name());
-            System.out.println(getArgument);
 
             Map <String, Object> nodes = new JSONObject(getArgument).toMap();
 
-            QuerySender.sendQuery("Hello world!");
+            //sample query, TODO Change it to something useful
+            new QuerySender().sendQuery("BASE <http://www.southgreen.fr/agrold/>\n" +
+                    "PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n" +
+                    "PREFIX rdfs:<http://www.w3.org/2000/01/rdf-schema#>\n" +
+                    "PREFIX vocab:<vocabulary/>\n" +
+                    "\n" +
+                    "SELECT DISTINCT ?s ?p ?o\n" +
+                    "WHERE { \n" +
+                    " ?s ?p ?o .\n" +
+                    "  FILTER ( $s = <http://www.openlinksw.com/virtrdf-data-formats#default-iid>)\n" +
+                    "}");
 
 
 
